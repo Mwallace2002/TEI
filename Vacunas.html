@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="barra.css">
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="columnas.css">
+
+    <title>Proyecto TEI Grupo 6</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <style>
+        table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+        }
+
+        td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+        }
+
+        tr:nth-child(even) {
+        background-color: #dddddd;
+        }
+
+        body {
+            margin: 10;
+        }
+    
+        #map {
+            width: 500px;
+            height: 500px;
+        }
+    
+        .coordinate {
+            position: absolute;
+            bottom: 10px;
+            right: 50%;
+        }
+    
+        .leaflet-popup-content-wrapper {
+            background-color: #000000;
+            color: #fff;
+            border: 1px solid red;
+            border-radius: 0px;
+        }
+    </style>
+
+</head>
+<body onload="load()">
+    <div class="topnav">
+        <a href="Index.html">Inicio</a>
+        <a href="Horarios.html">Horarios</a>
+        <a href="Vacunas.html">Vacunas</a>
+        <a href="feedback.html">Feedback</a>
+
+    </div>
+
+
+    <div class="content2">
+        <h2>Vacunas disponibles</h2>
+        
+    </div>
+
+
+    <main>
+    <div class="row">
+        <div class="column" style="background-color: #f1f1f1;">
+            <div class="col-4 d-flex justify-content-center">
+                <div id="map">
+                    <div class="leaflet-control coordinate"></div>
+                </div>
+            </div>
+        </div>
+        <div class="column2" style="background-color: #f1f1f1;">
+            <table>
+                <tr>
+                  <th>Vacunas</th>
+                  <th>Vida Integra</th>
+                  <th>Darvax Salud</th>
+                  <th>Hospital el Carmen</th>
+                </tr>
+                <tr>
+                  <td>Pfizer</td>
+                  <td><p id='0101' class="fs-2 text-light"></p></td>
+                  <td><p id='0102' class="fs-2 text-light"></p></td>
+                  <td><p id='0103' class="fs-2 text-light"></p></td>
+                </tr>
+                <tr>
+                  <td>Astrazeneca</td>
+                  <td><p id='0104' class="fs-2 text-light"></p></td>
+                  <td><p id='0105' class="fs-2 text-light"></p></td>                  
+                  <td><p id='0106' class="fs-2 text-light"></p></td>
+                </tr>
+                <tr>
+                  <td>Sinovac</td>
+                  <td><p id='0107' class="fs-2 text-light"></p></td>
+                  <td><p id='0108' class="fs-2 text-light"></p></td>
+                  <td><p id='0109' class="fs-2 text-light"></p></td>
+                </tr>
+                <tr>
+                  <td>Cansino</td>
+                  <td><p id='0110' class="fs-2 text-light"></p></td>
+                  <td><p id='0111' class="fs-2 text-light"></p></td>
+                  <td><p id='0112' class="fs-2 text-light"></p></td>                
+                </tr>
+
+              </table>
+        </div>
+           
+        
+    </main> 
+</body>
+</html>
+<script src="js-anim.js"></script>
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script src="./data/point.js"></script>
+<script src="./data/line.js"></script>
+<script src="./data/polygon.js"></script>
+
+<script>
+    var map = L.map('map').setView([-33.4489, -70.6693], 10);
+
+    var osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    });
+    osm.addTo(map);
+    var watercolor = L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.{ext}', {
+        attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+        subdomains: 'abcd',
+        minZoom: 1,
+        maxZoom: 16,
+        ext: 'jpg'
+    });
+
+
+    var wms = L.tileLayer.wms("http://localhost:8080/geoserver/wms", {
+        layers: 'geoapp:admin',
+        format: 'image/png',
+        transparent: true,
+        attribution: "wms test"
+    });
+
+    var myIcon = L.icon({
+        iconUrl: 'img/red_marker.png',
+        iconSize: [40, 40],
+    });
+    var marker1 = L.marker([-33.45006269041316, -70.66398756293363]);
+    var popup1 = marker1.bindPopup('Vacunatorio 1').openPopup()
+    popup1.addTo(map);
+    var marker2 = L.marker([-33.4242777273498, -70.56579725483596]).addTo(map);
+    var popup2 = marker2.bindPopup('Vacunatorio 2').openPopup()
+    popup2.addTo(map);
+    var marker3 = L.marker([-33.50803886945148, -70.77459940468152]).addTo(map);
+    var popup3 = marker3.bindPopup('Vacunatorio 3').openPopup()
+    popup3.addTo(map);
+</script>
